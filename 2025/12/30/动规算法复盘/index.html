@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="计算机科学的问题很多时候是和数学紧密联系的。在解决线性递推数列和序列匹配问题时，单纯的模拟往往受限于时间复杂度。本文通过分析 P1962 斐波那契数列 和 P1439 最长公共子序列，探讨如何利用 线性代数 和 离散化映射 打破 O(N)O(N)O(N) 和 O(n2) 的桎梏。  Problem Statement: P1962 斐波那契数列  来源: 暂无 Algorithm: DP Diff">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【算法笔记】从线性递推到映射转化：由 P1962 与 P1439 引发的数学思考">
+<meta property="og:url" content="http://example.com/2025/12/30/%E5%8A%A8%E8%A7%84%E7%AE%97%E6%B3%95%E5%A4%8D%E7%9B%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="计算机科学的问题很多时候是和数学紧密联系的。在解决线性递推数列和序列匹配问题时，单纯的模拟往往受限于时间复杂度。本文通过分析 P1962 斐波那契数列 和 P1439 最长公共子序列，探讨如何利用 线性代数 和 离散化映射 打破 O(N)O(N)O(N) 和 O(n2) 的桎梏。  Problem Statement: P1962 斐波那契数列  来源: 暂无 Algorithm: DP Diff">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-12-30T10:00:00.000Z">
+<meta property="article:modified_time" content="2025-12-30T03:02:58.326Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="LIS">
+<meta property="article:tag" content="Math">
+<meta property="article:tag" content="Matrix Exponentiation">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2025/12/30/%E5%8A%A8%E8%A7%84%E7%AE%97%E6%B3%95%E5%A4%8D%E7%9B%98/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2025/12/30/%E5%8A%A8%E8%A7%84%E7%AE%97%E6%B3%95%E5%A4%8D%E7%9B%98/","path":"2025/12/30/动规算法复盘/","title":"【算法笔记】从线性递推到映射转化：由 P1962 与 P1439 引发的数学思考"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【算法笔记】从线性递推到映射转化：由 P1962 与 P1439 引发的数学思考 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha256-UF1fgpAiu3tPJN/uCqEUHNe7pnr+QR0SQDNfgglgtcM=" crossorigin="anonymous">
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82%EF%BC%9A%E5%B0%86%E7%BA%BF%E6%80%A7%E5%A4%8D%E6%9D%82%E5%BA%A6%E9%99%8D%E7%BB%B4%E8%87%B3%E5%AF%B9%E6%95%B0%E7%BA%A7"><span class="nav-number">1.</span> <span class="nav-text">1. 矩阵快速幂：将线性复杂度降维至对数级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%88%86%E6%9E%90%EF%BC%88%E5%BB%BA%E7%AB%8B%E9%80%92%E5%BD%92%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">数学分析（建立递归）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">算法实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%98%A0%E5%B0%84%E8%BD%AC%E5%8C%96%EF%BC%9A%E5%88%A9%E7%94%A8%E5%85%A8%E6%8E%92%E5%88%97%E6%80%A7%E8%B4%A8%E4%BC%98%E5%8C%96-LCS"><span class="nav-number">2.</span> <span class="nav-text">2. 映射转化：利用全排列性质优化 LCS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E8%BD%AC%E5%8C%96%E5%88%B0%E9%97%AE%E9%A2%98%E8%BD%AC%E5%8C%96"><span class="nav-number">2.1.</span> <span class="nav-text">关系转化到问题转化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0-2"><span class="nav-number">2.2.</span> <span class="nav-text">算法实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E8%B7%83%E8%BF%81"><span class="nav-number">2.3.</span> <span class="nav-text">复杂度跃迁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">3. 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/12/30/%E5%8A%A8%E8%A7%84%E7%AE%97%E6%B3%95%E5%A4%8D%E7%9B%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【算法笔记】从线性递推到映射转化：由 P1962 与 P1439 引发的数学思考 | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【算法笔记】从线性递推到映射转化：由 P1962 与 P1439 引发的数学思考
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-12-30 18:00:00 / Modified: 11:02:58" itemprop="dateCreated datePublished" datetime="2025-12-30T18:00:00+08:00">2025-12-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CS-Study/" itemprop="url" rel="index"><span itemprop="name">CS Study</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>计算机科学的问题很多时候是和数学紧密联系的。在解决线性递推数列和序列匹配问题时，单纯的模拟往往受限于时间复杂度。本文通过分析 <strong>P1962 斐波那契数列</strong> 和 <strong>P1439 最长公共子序列</strong>，探讨如何利用 <strong>线性代数</strong> 和 <strong>离散化映射</strong> 打破 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>N</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span> 和 O(n<sup>2</sup>) 的桎梏。</p>
+<blockquote>
+<p><strong>Problem Statement</strong>:<br>
+<strong><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1962">P1962 斐波那契数列</a></strong></p>
+<ul>
+<li><strong>来源</strong>: 暂无</li>
+<li><strong>Algorithm</strong>: DP</li>
+<li><strong>Difficulty</strong>: Green (普及+/提高)</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>Problem Statement</strong>:<br>
+<strong><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1439">P1439 最长公共子序列</a></strong></p>
+<ul>
+<li><strong>来源</strong>: 暂无</li>
+<li><strong>Algorithm</strong>: LCS,LIS</li>
+<li><strong>Difficulty</strong>: Green (普及+/提高)</li>
+</ul>
+</blockquote>
+<span id="more"></span>
+<h2 id="1-矩阵快速幂：将线性复杂度降维至对数级">1. 矩阵快速幂：将线性复杂度降维至对数级</h2>
+<p><strong>Problem Statement</strong>:<br>
+求斐波那契数列第 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span></span></span></span> 项。数据范围：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span></span></span></span> 可达 10<sup>18</sup>。<br>
+如果使用迭代法，复杂度为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>N</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span>，对于如此巨大的数据规模显然不可接受。我们需要 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>log</mi><mi>N</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(\log N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span> 级的算法。</p>
+<h3 id="数学分析（建立递归）">数学分析（建立递归）</h3>
+<p>斐波那契数列的递推式为 F<sub>n</sub> = F<sub>n-1</sub> + F<sub>n-2</sub>。<br>
+这是一个二阶线性齐次递推关系。我们可以构造一个 <strong>状态矩阵</strong> 和 <strong>转移矩阵</strong>：</p>
+<!-- 手写 HTML 表格模拟矩阵，绝对不炸 -->
+<table style="border:none; text-align:center;">
+  <tr>
+    <td style="border:none; border-left:2px solid black; border-right:2px solid black; padding:0 10px;">
+      F<sub>n</sub><br>F<sub>n-1</sub>
+    </td>
+    <td style="border:none; font-size:20px;">=</td>
+    <td style="border:none; border-left:2px solid black; border-right:2px solid black; padding:0 10px;">
+      1 &nbsp; 1<br>1 &nbsp; 0
+    </td>
+    <td style="border:none; font-size:20px;">×</td>
+    <td style="border:none; border-left:2px solid black; border-right:2px solid black; padding:0 10px;">
+      F<sub>n-1</sub><br>F<sub>n-2</sub>
+    </td>
+  </tr>
+</table>
+<h3 id="算法实现">算法实现</h3>
+<p>问题转化为求矩阵 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">A</span></span></span></span> 的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span><span class="mbin">−</span><span class="mord mathrm">1</span></span></span></span> 次幂。利用 <strong>快速幂 (Binary Exponentiation)</strong> 思想，我们可以将矩阵乘法的次数从 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.68333em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.10903em;">N</span></span></span></span> 降至 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>log</mi><mi>N</mi></mrow><annotation encoding="application/x-tex">\log N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="base textstyle uncramped"><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mord mathit" style="margin-right:0.10903em;">N</span></span></span></span>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 核心代码：矩阵乘法重载 (Matrix Multiplication)</span></span><br><span class="line">Matrix <span class="keyword">operator</span>*(<span class="type">const</span> Matrix &amp;a, <span class="type">const</span> Matrix &amp;b) &#123;</span><br><span class="line">    Matrix c;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="number">2</span>; i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;<span class="number">2</span>; j++)</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>; k&lt;<span class="number">2</span>; k++)</span><br><span class="line">                c.m[i][j] = (c.m[i][j] + a.m[i][k] * b.m[k][j]) % MOD;</span><br><span class="line">    <span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过数学归纳法可知，求第 n 项等价于求转移矩阵的 n-1 次幂。<br>
+<strong><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1226">关于快速幂，</a></strong><br>
+这种方法体现了<strong>线性代数</strong>在算法优化中的核心地位：通过升维（引入矩阵），实现了计算量的指数级下降。</p>
+<hr>
+<h2 id="2-映射转化：利用全排列性质优化-LCS">2. 映射转化：利用全排列性质优化 LCS</h2>
+<p><strong>Problem Statement</strong>:<br>
+给定两个 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>∼</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">1 \sim n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mrel">∼</span><span class="mord mathit">n</span></span></span></span> 的全排列序列，求最长公共子序列。数据范围：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo></mrow><annotation encoding="application/x-tex">n \le</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.63597em;"></span><span class="strut bottom" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span><span class="mrel">≤</span></span></span></span> 10<sup>5</sup>。<br>
+经典 LCS 的 DP 解法复杂度为 O(N<sup>2</sup>)，无法处理 10<sup>5</sup> 的数据。</p>
+<h3 id="关系转化到问题转化">关系转化到问题转化</h3>
+<p>题目的关键限制条件是 <strong>“全排列”</strong>（即数字不重复）。这意味着我们可以建立一个<strong>位置映射</strong>。</p>
+<p>假设序列 A 为：<code>3 2 1 4 5</code><br>
+假设序列 B 为：<code>1 2 3 4 5</code></p>
+<p>我们将 A 中的数字映射为其下标：</p>
+<ul>
+<li><code>3</code> → <code>1</code></li>
+<li><code>2</code> → <code>2</code></li>
+<li><code>1</code> → <code>3</code></li>
+<li>…</li>
+</ul>
+<p>此时 A 等价于 <code>1 2 3 4 5</code>（严格单调递增）。</p>
+<p>按此规则转换 B 序列：</p>
+<ul>
+<li><code>1</code> → <code>3</code></li>
+<li><code>2</code> → <code>2</code></li>
+<li><code>3</code> → <code>1</code></li>
+<li>…</li>
+</ul>
+<p>转换后的 B’ 为：<code>3 2 1 4 5</code>。</p>
+<h3 id="算法实现-2">算法实现</h3>
+<p>问题从LCS问题转化为LIS问题，实则大大减少了工作量与时间复杂度</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">	cin&gt;&gt;num1[i];</span><br><span class="line">	id1[num1[i]<span class="number">-1</span>]=i;</span><br><span class="line">	</span><br><span class="line"> &#125; </span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">	cin&gt;&gt;num2[i];</span><br><span class="line">	id2[i]=id1[num2[i]<span class="number">-1</span>];</span><br><span class="line">&#125;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt; q;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> l=<span class="number">0</span>,r=q.<span class="built_in">size</span>()<span class="number">-1</span>;</span><br><span class="line">	<span class="type">int</span> pos=q.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">while</span>(l&lt;=r)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> mid=l+(r-l<span class="number">+1</span>)/<span class="number">2</span>;</span><br><span class="line">		<span class="keyword">if</span>(q[mid]&gt;id2[i])r=mid<span class="number">-1</span>,pos=mid;</span><br><span class="line">		<span class="keyword">else</span> l=mid<span class="number">+1</span>;</span><br><span class="line">	 &#125; </span><br><span class="line">	<span class="keyword">if</span>(pos==q.<span class="built_in">size</span>())q.<span class="built_in">push_back</span>(id2[i]);</span><br><span class="line">	<span class="keyword">else</span> q[pos]=id2[i];</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>结论</strong>：<br>
+求 A 和 B 的 LCS，等价于求 <strong>B’ 的 LIS (最长上升子序列)</strong>。<br>
+因为 A 已经被定义为“标准序”，B’ 中任何上升的子序列，还原回数字后，在 A 中必然也是相对顺序一致的。</p>
+<h3 id="复杂度跃迁">复杂度跃迁</h3>
+<p>LIS 问题可以使用 <strong>贪心 + 二分</strong> 求解，复杂度为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>N</mi><mi>log</mi><mi>N</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(N \log N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span>。<br>
+通过一个简单的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>N</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span> 映射，我们将问题从 O(N<sup>2</sup>) 的 DP 转化为了 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>N</mi><mi>log</mi><mi>N</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(N \log N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mord mathit" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span> 的贪心。</p>
+<h2 id="3-总结">3. 总结</h2>
+<p>无论是矩阵快速幂还是 LCS 转 LIS，其核心都在于 <strong>变换 (Transformation)</strong>。</p>
+<ul>
+<li>前者利用<strong>矩阵变换</strong>加速递推。</li>
+<li>后者利用<strong>坐标变换</strong>简化模型。</li>
+</ul>
+<p>算法不仅是代码的艺术，更是数学变换的艺术。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Algorithm/" rel="tag"># Algorithm</a>
+              <a href="/tags/Matrix-Exponentiation/" rel="tag"># Matrix Exponentiation</a>
+              <a href="/tags/LIS/" rel="tag"># LIS</a>
+              <a href="/tags/Math/" rel="tag"># Math</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/12/29/%E3%80%90%E7%AE%97%E6%B3%95%E5%A4%8D%E7%9B%98%E3%80%91%E4%BB%8E%E4%B8%80%E7%BB%B4%E5%88%B0%E9%AB%98%E7%BB%B4%EF%BC%9A%E5%88%A9%E7%94%A8%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97%E8%BF%9B%E8%A1%8C%E9%99%8D%E7%BB%B4%E6%90%9C%E7%B4%A2/" rel="prev" title="【算法复盘】从一维到高维：利用单调队列进行降维搜索">
+                  <i class="fa fa-angle-left"></i> 【算法复盘】从一维到高维：利用单调队列进行降维搜索
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/12/30/AI%E5%8A%A9%E6%89%8B%E5%90%AF%E5%8A%A8%E6%8C%87%E5%8D%97/" rel="next" title="【工程实践】如何开始我的个人AI终端 (Streamlit + Gemini)">
+                  【工程实践】如何开始我的个人AI终端 (Streamlit + Gemini) <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

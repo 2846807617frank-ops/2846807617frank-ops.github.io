@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="作为一名计算机系的大一新生，我决定搭建一个属于自己的技术博客，用于沉淀 C++、算法和线性代数的学习笔记。 在对比了多种方案后，我选择了 Hexo (静态博客框架) + GitHub Pages (免费托管) 的经典组合。本文记录了搭建全过程，特别是针对 Windows 环境下各种报错的**“工程化解决方案”**。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【实战记录】大一新生如何从零搭建Hexo 博客并部署到Github (避坑指南)">
+<meta property="og:url" content="http://example.com/2025/12/16/setup-hexo/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="作为一名计算机系的大一新生，我决定搭建一个属于自己的技术博客，用于沉淀 C++、算法和线性代数的学习笔记。 在对比了多种方案后，我选择了 Hexo (静态博客框架) + GitHub Pages (免费托管) 的经典组合。本文记录了搭建全过程，特别是针对 Windows 环境下各种报错的**“工程化解决方案”**。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-12-16T11:20:01.000Z">
+<meta property="article:modified_time" content="2025-12-16T11:58:46.328Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="GitHub">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="复盘">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2025/12/16/setup-hexo/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2025/12/16/setup-hexo/","path":"2025/12/16/setup-hexo/","title":"【实战记录】大一新生如何从零搭建Hexo 博客并部署到Github (避坑指南)"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【实战记录】大一新生如何从零搭建Hexo 博客并部署到Github (避坑指南) | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" integrity="sha256-UF1fgpAiu3tPJN/uCqEUHNe7pnr+QR0SQDNfgglgtcM=" crossorigin="anonymous">
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87-Prerequisites"><span class="nav-number">1.</span> <span class="nav-text">一、 环境准备 (Prerequisites)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81-%E6%9C%AC%E5%9C%B0%E6%90%AD%E5%BB%BA%E4%B8%8E%E9%A2%84%E8%A7%88"><span class="nav-number">2.</span> <span class="nav-text">二、 本地搭建与预览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">2.1.</span> <span class="nav-text">1. 初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%81%87%E5%88%B0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%9D%91%EF%BC%9APowerShell-%E6%9D%83%E9%99%90%E6%8A%A5%E9%94%99"><span class="nav-number">2.2.</span> <span class="nav-text">2. 遇到的第一个坑：PowerShell 权限报错</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81-%E9%83%A8%E7%BD%B2%E5%88%B0-GitHub-%E6%9C%80%E7%A1%AC%E6%A0%B8%E7%9A%84%E9%83%A8%E5%88%86"><span class="nav-number">3.</span> <span class="nav-text">三、 部署到 GitHub (最硬核的部分)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E4%BB%93%E5%BA%93"><span class="nav-number">3.1.</span> <span class="nav-text">1. 创建仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%81%87%E5%88%B0%E7%9A%84%E7%AC%AC%E4%BA%8C%E4%B8%AA%E5%9D%91%EF%BC%9A%E8%87%AA%E5%8A%A8%E5%8C%96%E6%8F%92%E4%BB%B6%E5%A4%B1%E6%95%88"><span class="nav-number">3.2.</span> <span class="nav-text">2. 遇到的第二个坑：自动化插件失效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%BB%88%E6%9E%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%9A%E7%BC%96%E5%86%99-Shell-%E8%84%9A%E6%9C%AC"><span class="nav-number">3.3.</span> <span class="nav-text">3. 终极解决方案：编写 Shell 脚本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81-GitHub-Pages-404-%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">四、 GitHub Pages 404 问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81-%E6%80%BB%E7%BB%93%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="nav-number">5.</span> <span class="nav-text">五、 总结与工作流</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/12/16/setup-hexo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【实战记录】大一新生如何从零搭建Hexo 博客并部署到Github (避坑指南) | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【实战记录】大一新生如何从零搭建Hexo 博客并部署到Github (避坑指南)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2025-12-16 19:20:01 / Modified: 19:58:46" itemprop="dateCreated datePublished" datetime="2025-12-16T19:20:01+08:00">2025-12-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF%E6%8A%98%E8%85%BE/" itemprop="url" rel="index"><span itemprop="name">技术折腾</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>作为一名计算机系的大一新生，我决定搭建一个属于自己的技术博客，用于沉淀 C++、算法和线性代数的学习笔记。</p>
+<p>在对比了多种方案后，我选择了 <strong>Hexo (静态博客框架) + GitHub Pages (免费托管)</strong> 的经典组合。本文记录了搭建全过程，特别是针对 Windows 环境下各种报错的**“工程化解决方案”**。</p>
+<span id="more"></span>
+<h2 id="一、-环境准备-Prerequisites">一、 环境准备 (Prerequisites)</h2>
+<p>工欲善其事，必先利其器。搭建 Hexo 需要以下环境：</p>
+<ol>
+<li><strong>Node.js</strong>:
+<ul>
+<li>下载 LTS (长期支持) 版本。</li>
+<li><strong>注意</strong>：安装时务必勾选 <code>Add to PATH</code>，否则终端无法识别命令。</li>
+</ul>
+</li>
+<li><strong>Git</strong>:
+<ul>
+<li>下载 Git for Windows。</li>
+<li><strong>建议</strong>：安装后使用 <strong>Git Bash</strong> 作为主要终端，避免 PowerShell 的权限问题。</li>
+</ul>
+</li>
+<li><strong>Hexo CLI</strong>:
+<ul>
+<li>通过 npm 安装：<code>npm install -g hexo-cli</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="二、-本地搭建与预览">二、 本地搭建与预览</h2>
+<h3 id="1-初始化">1. 初始化</h3>
+<p>找一个干净的目录，执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init myblog</span><br><span class="line"><span class="built_in">cd</span> myblog</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<h3 id="2-遇到的第一个坑：PowerShell-权限报错">2. 遇到的第一个坑：PowerShell 权限报错</h3>
+<p>当我尝试运行 <code>hexo s</code> 进行本地预览时，PowerShell 报错：</p>
+<blockquote>
+<p><code>无法加载文件 hexo.ps1，因为在此系统上禁止运行脚本...</code></p>
+</blockquote>
+<p><strong>原因分析</strong>：Windows 默认的安全策略禁止运行未签名的脚本。<br>
+<strong>解决方案</strong>：放弃 PowerShell，直接在文件夹右键选择 <strong>“Git Bash Here”</strong>。在 Linux 风格的终端下，一切畅通无阻。</p>
+<p>运行 <code>hexo s</code> 后，访问 <code>http://localhost:4000</code>，本地预览成功。</p>
+<h2 id="三、-部署到-GitHub-最硬核的部分">三、 部署到 GitHub (最硬核的部分)</h2>
+<p>这是最容易踩坑的环节。网上大多数教程推荐使用 <code>hexo-deployer-git</code> 插件，但在 Windows 上，这个插件经常报 <code>Spawn failed</code> 或 <code>Connection timed out</code>。</p>
+<h3 id="1-创建仓库">1. 创建仓库</h3>
+<p>在 GitHub 新建仓库，名称必须严格遵守格式：</p>
+<blockquote>
+<p><strong><code>你的用户名.github.io</code></strong></p>
+</blockquote>
+<h3 id="2-遇到的第二个坑：自动化插件失效">2. 遇到的第二个坑：自动化插件失效</h3>
+<p>我尝试配置 <code>_config.yml</code> 并运行 <code>hexo d</code>，结果报错：</p>
+<blockquote>
+<p><code>Error: Spawn failed</code><br>
+<code>fatal: unable to auto-detect email address</code></p>
+</blockquote>
+<p>系统无法识别 Git 身份，且插件内部调用 Git 命令时因网络问题崩溃。</p>
+<h3 id="3-终极解决方案：编写-Shell-脚本">3. 终极解决方案：编写 Shell 脚本</h3>
+<p>既然黑盒插件不稳定，不如直接写一个 Shell 脚本 (<code>deploy.sh</code>)，显式执行 Git 命令。这不仅更稳定，而且逻辑透明。</p>
+<p>我在博客根目录下新建了 <code>deploy.sh</code>，内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">set</span> -e <span class="comment"># 遇到错误立即停止</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 1. 清理与生成 ===&quot;</span></span><br><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 2. 进入 Public 目录初始化 Git ===&quot;</span></span><br><span class="line"><span class="built_in">cd</span> public</span><br><span class="line">git init</span><br><span class="line"></span><br><span class="line"><span class="comment"># 防止 Git 找不到身份（Hardcode 身份信息）</span></span><br><span class="line">git config user.name <span class="string">&quot;你的GitHub用户名&quot;</span></span><br><span class="line">git config user.email <span class="string">&quot;你的GitHub邮箱&quot;</span></span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Auto deploy: <span class="subst">$(date)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 3. 强制推送 ===&quot;</span></span><br><span class="line"><span class="comment"># 替换为你的仓库地址</span></span><br><span class="line">git remote add origin https://github.com/你的用户名/你的用户名.github.io.git</span><br><span class="line">git push -u origin master --force</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 部署完成！===&quot;</span></span><br></pre></td></tr></table></figure>
+<p>以后只需要在 Git Bash 运行 <code>./deploy.sh</code>，即可一键发布。</p>
+<h2 id="四、-GitHub-Pages-404-问题">四、 GitHub Pages 404 问题</h2>
+<p>推送成功后，访问网址却显示 404。</p>
+<p><strong>原因</strong>：代码推到了 <code>master</code> 分支，但 GitHub Pages 默认可能在监听 <code>main</code> 分支，或者没有开启 Pages 服务。</p>
+<p><strong>解决步骤</strong>：</p>
+<ol>
+<li>进入仓库 <strong>Settings -&gt; Pages</strong>。</li>
+<li>将 <strong>Build and deployment</strong> 下的 Branch 设置为 <strong><code>master</code></strong> 和 <strong><code>/(root)</code></strong>。</li>
+<li>点击 Save。</li>
+<li>等待 Actions 构建变绿，刷新页面，博客上线！</li>
+</ol>
+<h2 id="五、-总结与工作流">五、 总结与工作流</h2>
+<p>这次折腾让我理解了 Git 的底层逻辑：<strong>自动化工具再好用，也不如掌握底层命令来得实在。</strong></p>
+<p>今后的写作流：</p>
+<ol>
+<li><code>hexo new &quot;文章标题&quot;</code></li>
+<li>使用 Typora 编写 Markdown。</li>
+<li><code>hexo s</code> 本地预览。</li>
+<li><code>./deploy.sh</code> 一键发布。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+              <a href="/tags/GitHub/" rel="tag"># GitHub</a>
+              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+              <a href="/tags/%E5%A4%8D%E7%9B%98/" rel="tag"># 复盘</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/12/16/hello-world/" rel="prev" title="Hello World">
+                  <i class="fa fa-angle-left"></i> Hello World
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/12/29/%E3%80%90%E7%AE%97%E6%B3%95%E5%A4%8D%E7%9B%98%E3%80%91%E4%BB%8E%E4%B8%80%E7%BB%B4%E5%88%B0%E9%AB%98%E7%BB%B4%EF%BC%9A%E5%88%A9%E7%94%A8%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97%E8%BF%9B%E8%A1%8C%E9%99%8D%E7%BB%B4%E6%90%9C%E7%B4%A2/" rel="next" title="【算法复盘】从一维到高维：利用单调队列进行降维搜索">
+                  【算法复盘】从一维到高维：利用单调队列进行降维搜索 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
