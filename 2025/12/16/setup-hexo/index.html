@@ -28,7 +28,7 @@
 <meta property="og:description" content="作为一名计算机系的大一新生，我决定搭建一个属于自己的技术博客，用于沉淀 C++、算法和线性代数的学习笔记。 在对比了多种方案后，我选择了 Hexo (静态博客框架) + GitHub Pages (免费托管) 的经典组合。本文记录了搭建全过程，特别是针对 Windows 环境下各种报错的**“工程化解决方案”**。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-12-16T11:20:01.000Z">
-<meta property="article:modified_time" content="2025-12-16T11:58:46.328Z">
+<meta property="article:modified_time" content="2026-04-07T13:31:24.699Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="GitHub">
 <meta property="article:tag" content="Hexo">
@@ -209,9 +209,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2025-12-16 19:20:01 / Modified: 19:58:46" itemprop="dateCreated datePublished" datetime="2025-12-16T19:20:01+08:00">2025-12-16</time>
+      <time title="Created: 2025-12-16 19:20:01" itemprop="dateCreated datePublished" datetime="2025-12-16T19:20:01+08:00">2025-12-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-04-07 21:31:24" itemprop="dateModified" datetime="2026-04-07T21:31:24+08:00">2026-04-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -267,7 +273,7 @@
 </blockquote>
 <p><strong>原因分析</strong>：Windows 默认的安全策略禁止运行未签名的脚本。<br>
 <strong>解决方案</strong>：放弃 PowerShell，直接在文件夹右键选择 <strong>“Git Bash Here”</strong>。在 Linux 风格的终端下，一切畅通无阻。</p>
-<p>运行 <code>hexo s</code> 后，访问 <code>http://localhost:4000</code>，本地预览成功。</p>
+<p>运行 <code>hexo s</code> 后，访问 <code>本地</code>，本地预览成功。</p>
 <h2 id="三、-部署到-GitHub-最硬核的部分">三、 部署到 GitHub (最硬核的部分)</h2>
 <p>这是最容易踩坑的环节。网上大多数教程推荐使用 <code>hexo-deployer-git</code> 插件，但在 Windows 上，这个插件经常报 <code>Spawn failed</code> 或 <code>Connection timed out</code>。</p>
 <h3 id="1-创建仓库">1. 创建仓库</h3>
@@ -285,7 +291,7 @@
 <h3 id="3-终极解决方案：编写-Shell-脚本">3. 终极解决方案：编写 Shell 脚本</h3>
 <p>既然黑盒插件不稳定，不如直接写一个 Shell 脚本 (<code>deploy.sh</code>)，显式执行 Git 命令。这不仅更稳定，而且逻辑透明。</p>
 <p>我在博客根目录下新建了 <code>deploy.sh</code>，内容如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">set</span> -e <span class="comment"># 遇到错误立即停止</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 1. 清理与生成 ===&quot;</span></span><br><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 2. 进入 Public 目录初始化 Git ===&quot;</span></span><br><span class="line"><span class="built_in">cd</span> public</span><br><span class="line">git init</span><br><span class="line"></span><br><span class="line"><span class="comment"># 防止 Git 找不到身份（Hardcode 身份信息）</span></span><br><span class="line">git config user.name <span class="string">&quot;你的GitHub用户名&quot;</span></span><br><span class="line">git config user.email <span class="string">&quot;你的GitHub邮箱&quot;</span></span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Auto deploy: <span class="subst">$(date)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 3. 强制推送 ===&quot;</span></span><br><span class="line"><span class="comment"># 替换为你的仓库地址</span></span><br><span class="line">git remote add origin https://github.com/你的用户名/你的用户名.github.io.git</span><br><span class="line">git push -u origin master --force</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 部署完成！===&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">set</span> -e <span class="comment"># 遇到错误立即停止</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 1. 清理与生成 ===&quot;</span></span><br><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 2. 进入 Public 目录初始化 Git ===&quot;</span></span><br><span class="line"><span class="built_in">cd</span> public</span><br><span class="line">git init</span><br><span class="line"></span><br><span class="line"><span class="comment"># 防止 Git 找不到身份（Hardcode 身份信息）</span></span><br><span class="line">git config user.name <span class="string">&quot;你的GitHub用户名&quot;</span></span><br><span class="line">git config user.email <span class="string">&quot;你的GitHub邮箱&quot;</span></span><br><span class="line"></span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;Auto deploy: <span class="subst">$(date)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 3. 强制推送 ===&quot;</span></span><br><span class="line"><span class="comment"># 替换为你的仓库地址</span></span><br><span class="line">git remote add origin https://github.com/你的用户名/你的仓库名.github.io.git</span><br><span class="line">git push -u origin master --force</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 部署完成！===&quot;</span></span><br></pre></td></tr></table></figure>
 <p>以后只需要在 Git Bash 运行 <code>./deploy.sh</code>，即可一键发布。</p>
 <h2 id="四、-GitHub-Pages-404-问题">四、 GitHub Pages 404 问题</h2>
 <p>推送成功后，访问网址却显示 404。</p>
@@ -298,7 +304,7 @@
 <li>等待 Actions 构建变绿，刷新页面，博客上线！</li>
 </ol>
 <h2 id="五、-总结与工作流">五、 总结与工作流</h2>
-<p>这次折腾让我理解了 Git 的底层逻辑：<strong>自动化工具再好用，也不如掌握底层命令来得实在。</strong></p>
+<p>折腾总是有趣的。</p>
 <p>今后的写作流：</p>
 <ol>
 <li><code>hexo new &quot;文章标题&quot;</code></li>
